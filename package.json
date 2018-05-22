@@ -1,5 +1,6 @@
 {
-  "name": "electron-webpack-quick-start",
+  "name": "dat-note",
+  "productName": "Dat note",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -9,12 +10,31 @@
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
   },
   "dependencies": {
-    "source-map-support": "^0.5.5"
+    "@babel/preset-react": "^7.0.0-beta.47",
+    "@babel/preset-stage-0": "^7.0.0-beta.47",
+    "fs-extra": "^6.0.1",
+    "hyperdiscovery": "^7.1.0",
+    "hyperdrive": "^9.13.0",
+    "lodash": "^4.17.10",
+    "mobx": "^4.3.0",
+    "mobx-app": "^1.0.3",
+    "mobx-react": "^5.1.2",
+    "pify": "latest",
+    "prettier": "^1.12.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-draggable": "^3.0.5",
+    "react-hot-loader": "^4.2.0",
+    "rimraf": "latest",
+    "source-map-support": "^0.5.5",
+    "styled-components": "^3.2.6",
+    "styled-normalize": "^4.0.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.0.0-beta.47",
     "electron": "2.0.0",
     "electron-builder": "^20.11.1",
-    "electron-webpack": "^2.0.1",
+    "electron-webpack": "^2.1.0",
     "webpack": "^4.8.1"
   },
   "resolutions": {

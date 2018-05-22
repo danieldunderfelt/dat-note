@@ -1,0 +1,12 @@
+{
+  "plugins": [ "react-hot-loader/babel" ],
+  "presets": [
+    "@babel/react",
+    [
+      "@babel/stage-0",
+      {
+        "decoratorsLegacy": true
+      }
+    ]
+  ]
+}

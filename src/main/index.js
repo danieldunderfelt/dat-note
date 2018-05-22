@@ -1,8 +1,14 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
-import * as path from 'path'
+import path from 'path'
 import { format as formatUrl } from 'url'
+import packageJson from '../../package.json'
+import files from './files'
+
+app.setName(packageJson.productName)
+
+global.files = files()
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -10,21 +16,22 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let mainWindow
 
 function createMainWindow() {
-  const window = new BrowserWindow()
-
-  if (isDevelopment) {
-    window.webContents.openDevTools()
-  }
+  const window = new BrowserWindow({
+    width: 1024,
+    height: 768,
+    titleBarStyle: 'hiddenInset'
+  })
 
   if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
-  }
-  else {
-    window.loadURL(formatUrl({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file',
-      slashes: true
-    }))
+  } else {
+    window.loadURL(
+      formatUrl({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file',
+        slashes: true
+      })
+    )
   }
 
   window.on('closed', () => {
