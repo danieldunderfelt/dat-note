@@ -2,8 +2,6 @@ import React from 'react'
 import { hot } from 'react-hot-loader'
 import styled, { injectGlobal } from 'styled-components'
 import styledNormalize from 'styled-normalize'
-import Folders from './Folders'
-import Notes from './Notes'
 import EditNote from './EditNote'
 import FileManager from './FileManager'
 

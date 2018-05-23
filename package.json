@@ -12,7 +12,9 @@
   "dependencies": {
     "@babel/preset-react": "^7.0.0-beta.47",
     "@babel/preset-stage-0": "^7.0.0-beta.47",
+    "electron-context-menu": "^0.9.1",
     "electron-window-state": "^4.1.1",
+    "feather-icons": "^4.7.3",
     "fs-extra": "^6.0.1",
     "hyperdiscovery": "^7.1.0",
     "hyperdrive": "^9.13.0",
@@ -27,6 +29,7 @@
     "react-draggable": "^3.0.5",
     "react-hot-loader": "^4.2.0",
     "rimraf": "latest",
+    "smalltalk": "^3.0.0",
     "source-map-support": "^0.5.5",
     "styled-components": "^3.2.6",
     "styled-is": "^1.1.3",

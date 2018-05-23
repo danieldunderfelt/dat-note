@@ -1,5 +1,6 @@
 import * as paths from './paths'
 import fs from 'fs-extra'
+import getPath from '../helpers/getPath'
 
 const promisify = (func, errFirst = true) => async (...args) => new Promise((resolve, reject) => {
   func(...args, (err, result) => {
@@ -52,15 +53,15 @@ export default async archive => {
   }
   
   async function write(filePath, content) {
-    return writeFile(paths.V_FILES_PATH + '/' + filePath, content)
+    return writeFile(getPath(paths.V_FILES_PATH, filePath), content)
   }
   
   async function read(filePath, encoding = 'utf-8') {
-    return readFile(paths.V_FILES_PATH + '/' + filePath, encoding)
+    return readFile(getPath(paths.V_FILES_PATH, filePath), encoding)
   }
   
   async function remove(filePath) {
-    return unlink(filePath)
+    return unlink(getPath(paths.V_FILES_PATH, filePath))
   }
   
   async function set(key, value) {
@@ -71,13 +72,18 @@ export default async archive => {
   
   }
   
+  async function createDir(name) {
+    return mkdir(getPath(paths.V_FILES_PATH, name))
+  }
+  
   await init()
   
   return {
     list,
     write,
     read,
-    unlink,
+    remove,
+    createDir,
     get,
     set
   }
