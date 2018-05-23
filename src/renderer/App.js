@@ -5,6 +5,7 @@ import styledNormalize from 'styled-normalize'
 import Folders from './Folders'
 import Notes from './Notes'
 import EditNote from './EditNote'
+import FileManager from './FileManager'
 
 injectGlobal`
   ${styledNormalize};
@@ -33,6 +34,7 @@ const Header = styled.div`
 
 const AppBody = styled.div`
   display: grid;
+  height: 100%;
   grid-template-columns: ${({ column1 }) => Math.max(column1, 80)}px ${({
       column2
     }) => Math.max(column2, 80)}px 1fr;
@@ -41,18 +43,27 @@ const AppBody = styled.div`
 class App extends React.Component {
   state = {
     folderWidth: 160,
-    notesWidth: 160
+    notesWidth: 160,
+    selectedNote: ''
+  }
+
+  onSelectNote = selection => {
+    this.setState({
+      selectedNote: selection
+    })
   }
 
   render() {
-    const { folderWidth, notesWidth } = this.state
+    const { selectedNote, folderWidth, notesWidth } = this.state
 
     return (
       <AppWrapper>
         <Header />
         <AppBody column1={folderWidth} column2={notesWidth}>
-          <Folders />
-          <Notes />
+          <FileManager
+            selectedNote={selectedNote}
+            onSelectNote={this.onSelectNote}
+          />
           <EditNote />
         </AppBody>
       </AppWrapper>

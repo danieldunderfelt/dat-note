@@ -5,6 +5,7 @@ import path from 'path'
 import { format as formatUrl } from 'url'
 import packageJson from '../../package.json'
 import files from './files'
+import windowStateKeeper from 'electron-window-state'
 
 app.setName(packageJson.productName)
 
@@ -16,11 +17,21 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let mainWindow
 
 function createMainWindow() {
+  // Load the previous state with fallback to defaults
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 1000,
+    defaultHeight: 800
+  })
+  
   const window = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     titleBarStyle: 'hiddenInset'
   })
+  
+  mainWindowState.manage(window)
 
   if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)

@@ -31,6 +31,7 @@ export default async archive => {
   const readFile = promisify(archive.readFile.bind(archive))
   const unlink = promisify(archive.unlink.bind(archive))
   
+  // Write settings and file storage paths in archive
   async function init() {
     try {
       await stat(paths.V_SETTINGS_FILE)

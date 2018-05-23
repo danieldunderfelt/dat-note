@@ -56,6 +56,7 @@ export default async () => {
   
   return {
     fs: () => fs,
-    sync
+    sync,
+    contentPath: paths.V_FILES_PATH
   }
 }

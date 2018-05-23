@@ -2,6 +2,7 @@ import App from './App'
 import React from 'react'
 import { render as ReactRender } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
+import './style'
 
 const init = async () => {
   render(App)
