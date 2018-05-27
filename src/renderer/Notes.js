@@ -2,11 +2,20 @@ import React, { Component } from 'react'
 import is from 'styled-is'
 import styled from 'styled-components'
 import { remote } from "electron"
+import Icon from './components/Icon'
 import getPath from '../helpers/getPath'
+import { Button } from './components/Button'
+import smalltalk from 'smalltalk/legacy/index'
+import getFileName from '../helpers/getFileName'
 
 const NotesList = styled.div`
   background: #efefef;
   padding-top: 2.25rem;
+  display: grid;
+  grid-template-rows: 1fr 3rem;
+`
+
+const ListContainer = styled.div`
 `
 
 const Note = styled.button`
@@ -31,47 +40,47 @@ const Note = styled.button`
   `};
 `
 
-const loadNotes = async (path) => {
-  const files = await remote.getGlobal('files')
-  return files.fs().list(getPath(files.contentPath, path))
-}
+const Actions = styled.div`
+  display: flex;
+`
+
+const ActionButton = styled(Button)`
+   flex: 1 1 auto;
+`
 
 class Notes extends Component {
-  state = {
-    notes: []
-  }
   
-  async componentDidMount() {
-    await this.loadNotes()
-  }
-  
-  async componentDidUpdate() {
-    await this.loadNotes()
-  }
-  
-  loadNotes = async () => {
+  createFile = async () => {
     const { currentPath } = this.props
-    const notes = await loadNotes(currentPath)
+    const name = await smalltalk.prompt('New file', 'The name of your new file')
+    const parentFolder = currentPath ? currentPath : 'Uncategorized'
+    const files = await remote.getGlobal('files')
     
-    this.setState({
-      notes
-    })
+    await files.fs().write(getPath(parentFolder, name), name)
+    await this.props.loadNotes()
+    await this.props.loadFolders()
   }
   
   render() {
-    const { selectedNote, onSelect } = this.props
-    const { notes } = this.state
+    const { selectedNote, onSelect, notes } = this.props
     
     return (
       <NotesList>
-        { notes.map((note, idx) => (
-          <Note
-            onClick={ () => onSelect(note) }
-            selected={ selectedNote === note }
-            key={ `note_${idx}` }>
-            { note }
-          </Note>
-        )) }
+        <ListContainer>
+          { notes.map((note, idx) => (
+            <Note
+              onClick={ () => onSelect(note) }
+              selected={ selectedNote === getFileName(note) }
+              key={ `note_${idx}` }>
+              { note }
+            </Note>
+          )) }
+        </ListContainer>
+        <Actions>
+          <ActionButton onClick={ this.createFile }>
+            <Icon size={ 25 } name="file-plus" />
+          </ActionButton>
+        </Actions>
       </NotesList>
     )
   }

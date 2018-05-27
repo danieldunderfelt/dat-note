@@ -4,6 +4,7 @@ import styled, { injectGlobal } from 'styled-components'
 import styledNormalize from 'styled-normalize'
 import EditNote from './EditNote'
 import FileManager from './FileManager'
+import getFileName from '../helpers/getFileName'
 
 injectGlobal`
   ${styledNormalize};
@@ -40,19 +41,26 @@ const AppBody = styled.div`
 
 class App extends React.Component {
   state = {
-    folderWidth: 160,
-    notesWidth: 160,
-    selectedNote: ''
+    folderWidth: 300,
+    notesWidth: 300,
+    selectedNote: '',
+    selectedFolder: 'All'
   }
 
   onSelectNote = selection => {
     this.setState({
-      selectedNote: selection
+      selectedNote: getFileName(selection)
+    })
+  }
+
+  onSelectFolder = which => {
+    this.setState({
+      selectedFolder: which
     })
   }
 
   render() {
-    const { selectedNote, folderWidth, notesWidth } = this.state
+    const { selectedNote, selectedFolder, folderWidth, notesWidth } = this.state
 
     return (
       <AppWrapper>
@@ -60,7 +68,9 @@ class App extends React.Component {
         <AppBody column1={folderWidth} column2={notesWidth}>
           <FileManager
             selectedNote={selectedNote}
+            selectedFolder={selectedFolder}
             onSelectNote={this.onSelectNote}
+            onSelectFolder={this.onSelectFolder}
           />
           <EditNote />
         </AppBody>
