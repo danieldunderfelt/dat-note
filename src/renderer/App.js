@@ -5,6 +5,7 @@ import styledNormalize from 'styled-normalize'
 import EditNote from './EditNote'
 import FileManager from './FileManager'
 import getFileName from '../helpers/getFileName'
+import getPath from '../helpers/getPath'
 
 injectGlobal`
   ${styledNormalize};
@@ -33,6 +34,7 @@ const Header = styled.div`
 
 const AppBody = styled.div`
   display: grid;
+  width: 100%;
   height: 100%;
   grid-template-columns: ${({ column1 }) => Math.max(column1, 80)}px ${({
       column2
@@ -48,8 +50,10 @@ class App extends React.Component {
   }
 
   onSelectNote = selection => {
+    const selectedPath = getPath(this.currentPath(), selection)
+    
     this.setState({
-      selectedNote: getFileName(selection)
+      selectedNote: selectedPath
     })
   }
 
@@ -59,20 +63,31 @@ class App extends React.Component {
     })
   }
 
+  currentPath = () => {
+    const { selectedFolder } = this.state
+
+    if (selectedFolder === 'All') {
+      return ''
+    }
+
+    return selectedFolder
+  }
+
   render() {
     const { selectedNote, selectedFolder, folderWidth, notesWidth } = this.state
-
+    
     return (
       <AppWrapper>
         <Header />
         <AppBody column1={folderWidth} column2={notesWidth}>
           <FileManager
+            currentPath={this.currentPath()}
             selectedNote={selectedNote}
             selectedFolder={selectedFolder}
             onSelectNote={this.onSelectNote}
             onSelectFolder={this.onSelectFolder}
           />
-          <EditNote />
+          <EditNote currentFile={selectedNote} />
         </AppBody>
       </AppWrapper>
     )

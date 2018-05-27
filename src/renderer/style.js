@@ -13,6 +13,11 @@ injectGlobal`
   body {
     display: flex;
     align-items: stretch;
+    width: 100%;
     height: 100%;
+  }
+  
+  #app {
+    width: 100%;
   }
 `

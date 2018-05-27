@@ -102,7 +102,7 @@ class Notes extends Component {
           { notes.map((note, idx) => (
             <Note
               onClick={ () => onSelect(note) }
-              selected={ selectedNote === getFileName(note) }
+              selected={ getFileName(selectedNote) === getFileName(note) }
               key={ `note_${idx}` }>
               <ContextButton onClick={ this.deleteFile(note) }>
                 <Icon size={ 16 } name="file-minus" />

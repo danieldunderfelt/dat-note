@@ -54,7 +54,7 @@ class FileManager extends Component {
     }
 
     this.loadingNotes = true
-    const notes = await loadNotes(this.currentPath())
+    const notes = await loadNotes(this.props.currentPath)
 
     this.setState({
       notes
@@ -77,22 +77,13 @@ class FileManager extends Component {
     this.loadingFolders = false
   }
 
-  currentPath = () => {
-    const { selectedFolder } = this.props
-
-    if (selectedFolder === 'All') {
-      return ''
-    }
-
-    return selectedFolder
-  }
-
   render() {
     const {
       selectedFolder,
       selectedNote,
       onSelectNote,
-      onSelectFolder
+      onSelectFolder,
+      currentPath
     } = this.props
     
     const { notes, folders } = this.state
@@ -110,7 +101,7 @@ class FileManager extends Component {
           notes={notes}
           loadNotes={this.loadNotes}
           loadFolders={this.loadFolders}
-          currentPath={this.currentPath()}
+          currentPath={currentPath}
           selectedNote={selectedNote}
           onSelect={onSelectNote}
         />
