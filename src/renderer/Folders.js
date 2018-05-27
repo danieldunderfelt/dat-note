@@ -5,6 +5,7 @@ import is from 'styled-is'
 import { Button } from './components/Button'
 import Icon from './components/Icon'
 import smalltalk from 'smalltalk/legacy'
+import sortBy from 'lodash/sortBy'
 
 const FolderList = styled.div`
   background: #dbedef;
@@ -48,7 +49,6 @@ const Folder = styled.div`
 
 const Actions = styled.div`
   display: flex;
- 
 `
 
 const ActionButton = styled(Button)`
@@ -108,7 +108,7 @@ class Folders extends Component {
               All
             </FolderItemButton>
           </Folder>
-          { folders.map((folder, idx) => (
+          { sortBy(folders, name => name.toLowerCase()).map((folder, idx) => (
             <Folder
               selected={ selectedFolder === folder }
               key={ `folder_${idx}` }>

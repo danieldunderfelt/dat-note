@@ -28,15 +28,24 @@ class FileManager extends Component {
 
   loadingFolders = false
   loadingNotes = false
-
+  updating = false
+  
   async componentDidMount() {
     await this.loadFolders()
     await this.loadNotes()
   }
 
   async componentDidUpdate() {
+    if(this.updating) {
+      return
+    }
+    
+    this.updating = true
+    
     await this.loadFolders()
     await this.loadNotes()
+    
+    this.updating = false
   }
 
   loadNotes = async () => {
@@ -101,6 +110,7 @@ class FileManager extends Component {
           notes={notes}
           loadNotes={this.loadNotes}
           loadFolders={this.loadFolders}
+          currentPath={this.currentPath()}
           selectedNote={selectedNote}
           onSelect={onSelectNote}
         />

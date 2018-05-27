@@ -18,25 +18,30 @@ const NotesList = styled.div`
 const ListContainer = styled.div`
 `
 
-const Note = styled.button`
+const Note = styled.div`
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  align-items: flex-start;
   background: transparent;
   border: 0;
-  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
-  display: block;
-  text-align: left;
+  padding: 0;
   width: 100%;
   -webkit-appearance: none;
   font-family: 'Helvetica Neue', sans-serif;
   color: #444;
   cursor: pointer;
   outline: none;
-
+  white-space: nowrap;
+  
   &:hover {
     background-color: #dedede;
   }
 
   ${is('selected')`
-    font-weight: bold;
+    
+    &, button {
+      font-weight: bold;
+    }
   `};
 `
 
@@ -48,7 +53,34 @@ const ActionButton = styled(Button)`
    flex: 1 1 auto;
 `
 
+const ContextButton = styled(Button)`
+  vertical-align: baseline;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+`
+
+const NoteItemButton = styled(Button)`
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+  text-align: left;
+  display: block;
+  transform-origin: left center;
+`
+
 class Notes extends Component {
+  
+  deleteFile = (which) => async () => {
+    const { currentPath } = this.props
+    const removePath = getPath(currentPath, which)
+    
+    try {
+      await smalltalk.confirm('Delete note', 'Are you sure you want to delete this note?')
+    } catch( err ) {
+      console.log('Delete cancelled.')
+    }
+    
+    const files = await remote.getGlobal('files')
+    await files.fs().remove(removePath, true)
+    await this.props.loadNotes()
+  }
   
   createFile = async () => {
     const { currentPath } = this.props
@@ -72,7 +104,12 @@ class Notes extends Component {
               onClick={ () => onSelect(note) }
               selected={ selectedNote === getFileName(note) }
               key={ `note_${idx}` }>
-              { note }
+              <ContextButton onClick={ this.deleteFile(note) }>
+                <Icon size={ 16 } name="file-minus" />
+              </ContextButton>
+              <NoteItemButton onClick={ () => onSelect(note) }>
+                { note }
+              </NoteItemButton>
             </Note>
           )) }
         </ListContainer>
