@@ -4,7 +4,7 @@ import { remote } from 'electron'
 import debounce from 'lodash/debounce'
 
 const NoteContainer = styled.div`
-  padding: 2.25rem 1rem 1rem;
+  padding: 1.25rem 0 0;
   display: flex;
   width: 100%;
   align-items: stretch;
@@ -16,6 +16,8 @@ const TextArea = styled.textarea`
   display: block;
   width: 100%;
   border: 0;
+  outline: 0;
+  padding: 1rem;
 `
 
 class EditNote extends Component {
